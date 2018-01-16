@@ -1,0 +1,14 @@
+﻿@model List<herman.Models.IMDBSearchResult>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <p>
+            <img src="@item.Poster" class="cover" />
+            @item.Title
+            -
+            @item.Year
+        </p>
+    }
+}

@@ -1,0 +1,38 @@
+﻿@model herman.Models.actor
+
+@{
+    var mymovielist = Model.mymovies;
+}
+
+<h2>ViewActor</h2>
+
+<div>
+    <dl>
+        <dd>
+        <img src=http://h7.hopto.org/herman/actors/@Html.DisplayFor(model => model.actor_photo) class="actor" />
+        @Html.DisplayFor(model => model.actor_first_name) 
+        @Html.DisplayFor(model => model.actor_mi) 
+        @Html.DisplayFor(model => model.actor_last_name) 
+        @Html.DisplayFor(model => model.actor_suffix)
+        </dd>
+    </dl>
+</div>
+<div>
+    <dl>
+@foreach (var item in mymovielist)
+{
+    <dd>
+        <a href="@Url.Action("VideoDetails","Home", new { id = item.video_id })">
+            @item.Release_Date
+            --
+            @item.Video_Name
+            --
+            @item.char_first_name
+            @item.char_mi
+            @item.char_last_name
+            @item.char_alias
+        </a>
+    </dd>
+}
+    </dl>
+</div>

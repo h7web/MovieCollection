@@ -1,19 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+	background-color:#0066B3;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	color:#333333;
+	margin:0;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -22,3 +13,85 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.container {
+
+	width:100em;
+	padding:1em;
+	color:#FFFFFF;
+	margin:0 auto 0 auto;
+}
+
+.container a {
+    color:#bbbbbb;
+}
+
+.container a:hover {
+    color:#FFFFFF;
+    text-decoration:none;
+}
+
+#header {
+
+	background-color:#071D4D;
+	height: 17.3em;
+	margin-right: .5em;
+	margin-bottom: 1em;
+	color:#FFFFFF;
+	font-family:"Trebuchet MS", Arial, Verdana;
+	font-size: 1.5em;
+	font-weight:bold;
+
+}
+
+p, td {
+	font-size:1em;
+	margin-top:0px;
+}
+
+.cover, .actor {
+	width: 7.75em;
+	height: 10em;
+	margin-right:.5em;
+}
+
+.actor {
+    margin-bottom:.5em;
+}
+
+.VideoTitle {
+	font-size:2em;
+	margin-bottom:0;
+}
+
+.release, .categories {
+	font-size:1em;
+
+	color:#bbbbbb;
+	text-transform:uppercase;
+}
+
+.categories {
+	font-size:2em;
+}
+
+.formatcolumn {
+    width:23em;
+    text-align:right;
+}
+
+.formats {
+	width: 4em;
+	height: 2.2em;
+	margin-left: 1em;
+	margin-right: 0em;
+}
+
+.rss img { width: 1em; }
+
+#footer {
+	clear: both;
+	text-align: center;
+}
+
+

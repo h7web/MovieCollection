@@ -1,31 +1,51 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<herman.Models.VideoViewModel>
+
+@{
+    ViewBag.Title = "Index";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<h2>Index</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    @using (Html.BeginForm("Index", "Home"))
+    {
+        @Html.TextBox("search") <input type="submit" name="submit" value="Search" />
+    }
+</p>
+<table class="table" border="0">
+@foreach (var item in Model)
+{
+    <tr>
+        <td rowspan="3">
+            <img src=http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)  class="cover" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="VideoTitle">
+                @Html.ActionLink(item.Video_Name, "VideoDetails", new { id = item.video_id })
+            </div>
+            <p>
+                @Html.DisplayFor(modelItem => item.dir_first_name) @Html.DisplayFor(modelItem => item.dir_last_name)
+                -
+                @Html.DisplayFor(modelItem => item.Release_Date)
+            </p>
+        </td>
+        <td class="formatcolumn">
+            @Html.Raw(FormatHelper.GetMediaFormat(item.VHS, "VHS"))
+            @Html.Raw(FormatHelper.GetMediaFormat(item.DVD, "DVD"))
+            @Html.Raw(FormatHelper.GetMediaFormat(item.BLURAY, "BLURAY"))
+            @Html.Raw(FormatHelper.GetMediaFormat(item.DIGITAL, "DIGITAL"))
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            @Html.DisplayFor(modelItem => item.Plot)
+        </td>
+    </tr>
+}
+
+</table>
