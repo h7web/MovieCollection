@@ -1,0 +1,60 @@
+﻿@model herman.Models.IMDBSearchResult
+@{
+    ViewData["Categories"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetCategories();
+    ViewData["Directors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetDirectors();
+}
+@using (Html.BeginForm("AddVideo","Home"))
+{
+    @Html.Hidden("Video_Name", Model.Title)
+    @Html.Hidden("Release_Date", Model.Year)
+    @Html.Hidden("lengthtxt", Model.Runtime)
+    @Html.Hidden("ratingtxt", Model.Rated)
+    @Html.Hidden("Plot", Model.Plot)
+    @Html.Hidden("Box_Cover", Model.Poster)
+
+           <dl>
+                <dd>
+                    <img src="@Model.Poster" class="cover" />
+                </dd>
+                <dt>Title</dt>
+                <dd>
+                    @Model.Title
+                </dd>
+                <dt>Director</dt>
+               <dd>
+               <dd>
+                   @Html.DropDownList("Director", (IEnumerable<SelectListItem>)ViewData["Directors"], new { @class = "form-control" })
+
+                   <br />(
+               @Model.Director
+                   )
+           </dd>
+                <dt>Year</dt>
+                <dd>
+                    @Model.Year
+                </dd>
+                <dt>Rating</dt>
+                <dd>
+                    @Model.Rated
+                </dd>
+                <dt>Runtime</dt>
+                <dd>
+                    @Model.Runtime
+                </dd>
+                <dt>Plot</dt>
+                <dd>
+                    @Model.Plot
+                </dd>
+                <dt>Category</dt>
+                <dd>@Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewData["Categories"], new { @class = "form-control" })
+               <br />(
+               @Model.Genre
+               }</dd>
+               <dt>VHS</dt><dd> @Html.CheckBox("VHS", new { @class="form-control" })</dd>
+               <dt>DVD</dt><dd> @Html.CheckBox("DVD", new { @class = "form-control" })</dd>
+               <dt>BLURAY</dt><dd> @Html.CheckBox("BLURAY", new { @class = "form-control" })</dd>
+               <dt>DIGITAL</dt><dd> @Html.CheckBox("DIGITAL", new { @class = "form-control" })</dd>
+            </dl>
+
+            <button type="submit" class="btn btn-default btn-secondary">Add to Collection</button>
+}

@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
+using System.Net;
+using System.Data.Entity.Validation;
 
 namespace herman.Controllers
 {
@@ -146,63 +148,115 @@ namespace herman.Controllers
 
             return categories;
         }
-
-        public static List<IMDBSearchResult> SearchResults(string search)
+        public List<SelectListItem> GetDirectors(string selected = null)
         {
-            List<IMDBSearchResult> ret = new List<IMDBSearchResult>();
+            List<SelectListItem> directors = new List<SelectListItem>();
 
-            string src = "";
+            directors.Add(new SelectListItem { Value = "", Text = "* Select Director" });
 
-            try
+            var dirs = (from d in db.directors orderby d.dir_last_name, d.dir_first_name select d).ToList().Distinct();
+
+            foreach (var d in dirs)
             {
-                string endPointUrl = "http://www.omdbapi.com/?apikey=b2c5d76a&r=json&s=" + search;
-                HttpClient httpc = new HttpClient();
-                Task<string> t = httpc.GetStringAsync(endPointUrl);
-                src = t.Result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                directors.Add(new SelectListItem { Value = d.dir_id.ToString(), Text = d.dir_first_name + ' ' + d.dir_last_name, Selected = (selected == d.dir_id.ToString()) ? true : false });
             }
 
-            ret = JsonConvert.DeserializeObject <List<IMDBSearchResult>>(src);
+            return directors;
+        }
 
-            return ret;
+        public List<IMDBSearchResult> SearchResults(string search)
+        {
+            var jsonString = new WebClient().DownloadString("http://www.omdbapi.com/?apikey=b2c5d76a&r=json&type=movie&s=" + search);
+
+            var imdbsearch = JsonConvert.DeserializeObject<Results>(jsonString);
+
+            return imdbsearch.Search;
         }
 
         public ActionResult SearchForVideo(string search)
         {
             var ret = SearchResults(search);
 
-            return View(ret);
+            return PartialView(ret);
+        }
+
+        public IMDBSearchResult GetIMDBVideoDetails(string id)
+        {
+            var jsonString = new WebClient().DownloadString("http://www.omdbapi.com/?apikey=b2c5d76a&r=json&i=" + id);
+
+            var imdbsearch = JsonConvert.DeserializeObject<IMDBSearchResult>(jsonString);
+
+            return imdbsearch;
+        }
+
+        public ActionResult GetVideoDetails(string id)
+        {
+            var ret = GetIMDBVideoDetails(id);
+
+            return PartialView(ret);
         }
 
         public ActionResult AddVideo()
         {
-            ViewData["Categories"] = GetCategories();
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddVideo(string title, string releaseDate, string category, bool? featured)
+        [ValidateInput(false)]
+        public ActionResult AddVideo(VideoViewModel vid)
         {
+            var dir = new director();
 
-                return RedirectToAction("Index");
-        }
+            int rating = 0;
 
-        private async Task<HttpResponseMessage> getVideoInfo(string id)
-        {
-            HttpClient client = new HttpClient();
-            var content = new FormUrlEncodedContent(new[]
+            if (vid.ratingtxt == "PG")
             {
-                new KeyValuePair<string, string>("apikey", "b2c5d76a"),
-                new KeyValuePair<string, string>("i", id)
-            });
+                rating = 2;
+            }
+            else if (vid.ratingtxt == "PG-13")
+            {
+                rating = 3;
+            }
+            else if (vid.ratingtxt == "R")
+            {
+                rating = 4;
+            }
+            else
+            {
+                rating = 1;
+            }
 
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            var len = vid.lengthtxt.Length;
+            len = len - 4;
+            int length = Int32.Parse(vid.lengthtxt.Substring(0, len));
 
-            return await client.PostAsync("http://www.omdbapi.com/", content);
+            var newVideo = new Video();
+
+            newVideo.Video_Name = vid.Video_Name;
+            newVideo.VHS = vid.VHS;
+            newVideo.DVD = vid.DVD;
+            newVideo.BLURAY = vid.BLURAY;
+            newVideo.DIGITAL = vid.DIGITAL;
+            newVideo.rating = rating;
+            newVideo.length = length;
+            newVideo.Plot = vid.Plot;
+            newVideo.Director = vid.Director;
+            newVideo.Category = vid.Category;
+            newVideo.Box_Cover = vid.Box_Cover;
+
+
+            try
+            {
+                db.Videos.Add(newVideo);
+
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                Console.Write("err is " + ex);
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

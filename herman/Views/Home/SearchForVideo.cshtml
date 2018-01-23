@@ -1,0 +1,53 @@
+﻿@model IEnumerable<herman.Models.IMDBSearchResult>
+@{
+
+}
+
+<table class="table">
+@if (Model != null)
+{
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Year
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Poster)" class="cover" />
+                </td>
+                <td>
+                    <a href="#" onclick="GetIMDBVideoDetails('@item.imdbID');">@item.Title</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.imdbID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td colspan="5">No results found.</td></tr>
+    }
+
+</table>

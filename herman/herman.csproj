@@ -152,6 +152,7 @@
     <Compile Include="Models\director.cs">
       <DependentUpon>HermanModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Search.cs" />
     <Compile Include="Models\IMDBSearchResult.cs" />
     <Compile Include="Models\Partialactor.cs" />
     <Compile Include="Models\VideoViewModel.cs" />
@@ -233,6 +234,8 @@
     <Content Include="Views\Home\ViewActor.cshtml" />
     <Content Include="Views\Home\AddVideo.cshtml" />
     <Content Include="Views\Home\IMDBResults.cshtml" />
+    <Content Include="Views\Home\SearchForVideo.cshtml" />
+    <Content Include="Views\Home\GetVideoDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

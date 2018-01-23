@@ -1,8 +1,8 @@
-﻿@model List<herman.Models.IMDBSearchResult>
+﻿@model herman.Models.Search
 
 @if (Model != null)
 {
-    foreach (var item in Model)
+    foreach (var item in Model.results)
     {
         <p>
             <img src="@item.Poster" class="cover" />
