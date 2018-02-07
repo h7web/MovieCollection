@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="hermanModel.category" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="hermanModel.character" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="hermanModel.director" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="hermanModel.image" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="hermanModel.image" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="hermanModel.Video" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
         <AssociationConnector Association="hermanModel.FK_actor2movie_actors" ManuallyRouted="false" />
         <AssociationConnector Association="hermanModel.FK_actor2movie_characters" ManuallyRouted="false" />

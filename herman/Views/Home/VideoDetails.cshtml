@@ -11,7 +11,16 @@
 <div>
     <hr />
     <dl class="dl-horizontal">
-        <dd><img src=http://h7.hopto.org/herman/images/@Html.DisplayFor(model => model.Box_Cover)  class="cover" /></dd>
+        <dd>
+            @if (Model.Box_Cover.Contains("https"))
+            {
+                <img src="@Html.DisplayFor(model => model.Box_Cover)" class="cover" />
+            }
+            else
+            {
+                <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(model => model.Box_Cover)" class="cover" />
+            }
+        </dd>
         <dd>
             @Html.DisplayFor(model => model.Video_Name) - (@Html.DisplayFor(model => model.Release_Date))
         </dd>
@@ -24,7 +33,7 @@
         </dd>
 
         <dd>
-            @Html.DisplayFor(model => model.dir_first_name)  @Html.DisplayFor(model => model.dir_last_name)
+            @Html.DisplayFor(model => model.dir_fullname)
         </dd>
 
         <dd>
@@ -50,17 +59,11 @@
 @foreach (var item in vcl)
 {
     <dd>
-<a href='@Url.Action("ViewActor","Home", new { id = item.actor_id })'>
-<img src=http://h7.hopto.org/herman/actors/@item.actor_photo class=actor /></a>
-@item.actor_first_name
-@item.actor_mi
-@item.actor_last_name
-@item.actor_suffix
+<a href='@Url.Action("ViewActor","Home", new { id = item.actor.actor_id })'>
+<img src=http://h7.hopto.org/herman/actors/@item.actor.actor_photo class=actor /></a>
+@item.actor.actor_fullname;
 . . . . . 
-@item.char_first_name
-@item.char_mi
-@item.char_last_name
-@item.char_alias
+@item.character.char_fullname;
     </dd>
 }
         </dl>

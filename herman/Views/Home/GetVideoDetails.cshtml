@@ -1,9 +1,10 @@
 ﻿@model herman.Models.IMDBSearchResult
 @{
     ViewData["Categories"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetCategories();
-    ViewData["Directors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetDirectors();
+    ViewData["Directors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetDirectors(Model.dir_id.ToString());
+    var dirs = ViewData["Directors"];
 }
-@using (Html.BeginForm("AddVideo","Home"))
+@using (Html.BeginForm("AddVideo", "Home"))
 {
     @Html.Hidden("Video_Name", Model.Title)
     @Html.Hidden("Release_Date", Model.Year)
@@ -23,8 +24,14 @@
                 <dt>Director</dt>
                <dd>
                <dd>
-                   @Html.DropDownList("Director", (IEnumerable<SelectListItem>)ViewData["Directors"], new { @class = "form-control" })
-
+                   @if (Model.dir_id == 0)
+                   {
+                    @Html.TextBox("newDirector", Model.Director, new { @class = "form-control" })
+                   }
+                   else
+                   {
+                    @Html.DropDownList("Director", (IEnumerable<SelectListItem>)ViewData["Directors"], new { @class = "form-control" })
+                   }
                    <br />(
                @Model.Director
                    )

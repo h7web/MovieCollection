@@ -28,5 +28,7 @@ namespace herman.Models
 
         public string Director { get; set; }
 
+        public int dir_id { get; set; }
+
     }
 }

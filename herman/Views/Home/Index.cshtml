@@ -20,7 +20,14 @@
 {
     <tr>
         <td rowspan="3">
-            <img src=http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)  class="cover" />
+            @if (item.Box_Cover.Contains("https"))
+            {
+                <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+            }
+            else
+            {
+            <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)"  class="cover" />
+            }
         </td>
     </tr>
     <tr>
@@ -29,7 +36,7 @@
                 @Html.ActionLink(item.Video_Name, "VideoDetails", new { id = item.video_id })
             </div>
             <p>
-                @Html.DisplayFor(modelItem => item.dir_first_name) @Html.DisplayFor(modelItem => item.dir_last_name)
+                @Html.DisplayFor(modelItem => item.dir_fullname) 
                 -
                 @Html.DisplayFor(modelItem => item.Release_Date)
             </p>

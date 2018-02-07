@@ -152,6 +152,7 @@
     <Compile Include="Models\director.cs">
       <DependentUpon>HermanModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Partialcharacter.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\IMDBSearchResult.cs" />
     <Compile Include="Models\Partialactor.cs" />

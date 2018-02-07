@@ -92,16 +92,8 @@ namespace herman.Controllers
                            join c in db.characters on a2.char_id equals c.char_id
                            select new CastList
                            {
-                               actor_id = a2.actor_id,
-                               actor_first_name = a == null ? "" : a.actor_first_name,
-                               actor_mi = a == null ? "" : a.actor_mi,
-                               actor_last_name = a == null ? "" : a.actor_last_name,
-                               actor_suffix = a == null ? "" : a.actor_suffix,
-                               actor_photo = a == null ? "" : a.actor_photo,
-                               char_first_name = c == null ? "" : c.char_first_name,
-                               char_mi = c == null ? "" : c.char_mi,
-                               char_last_name = c == null ? "" : c.char_last_name,
-                               char_alias = c == null ? "" : c.char_alias
+                               actor = a,
+                               character = c
     });
 
             getvideo.VideoCastList = getcast.ToList();
@@ -154,7 +146,7 @@ namespace herman.Controllers
 
             directors.Add(new SelectListItem { Value = "", Text = "* Select Director" });
 
-            var dirs = (from d in db.directors orderby d.dir_last_name, d.dir_first_name select d).ToList().Distinct();
+            var dirs = (from d in db.directors orderby d.dir_last_name, d.dir_first_name select d).ToList();
 
             foreach (var d in dirs)
             {
@@ -180,11 +172,31 @@ namespace herman.Controllers
             return PartialView(ret);
         }
 
+
+        public int FindDir(string val)
+        {
+            int dirid = 0;
+            var fn = val.Substring(0, val.IndexOf(" "));
+            var ln = (val.Substring((val.IndexOf(" ")), (val.Length - val.IndexOf(" ")))).TrimStart(' ');
+
+
+            var dir = (from d in db.directors where d.dir_first_name == fn && d.dir_last_name == ln select d).FirstOrDefault();
+
+            if (dir != null)
+            {
+                dirid = dir.dir_id;
+            }
+
+            return dirid;
+        }
+
         public IMDBSearchResult GetIMDBVideoDetails(string id)
         {
             var jsonString = new WebClient().DownloadString("http://www.omdbapi.com/?apikey=b2c5d76a&r=json&i=" + id);
 
             var imdbsearch = JsonConvert.DeserializeObject<IMDBSearchResult>(jsonString);
+
+            imdbsearch.dir_id = FindDir(imdbsearch.Director);
 
             return imdbsearch;
         }
@@ -230,6 +242,17 @@ namespace herman.Controllers
             len = len - 4;
             int length = Int32.Parse(vid.lengthtxt.Substring(0, len));
 
+            if (vid.Director == null)
+            {
+                dir.dir_first_name = vid.newDirector.Substring(0, vid.newDirector.IndexOf(" "));
+                dir.dir_last_name = (vid.newDirector.Substring((vid.newDirector.IndexOf(" ")), (vid.newDirector.Length - vid.newDirector.IndexOf(" ")))).Trim();
+
+                db.directors.Add(dir);
+                db.SaveChanges();
+
+            }
+
+
             var newVideo = new Video();
 
             newVideo.Video_Name = vid.Video_Name;
@@ -237,10 +260,11 @@ namespace herman.Controllers
             newVideo.DVD = vid.DVD;
             newVideo.BLURAY = vid.BLURAY;
             newVideo.DIGITAL = vid.DIGITAL;
+            newVideo.Release_Date = vid.Release_Date;
             newVideo.rating = rating;
             newVideo.length = length;
             newVideo.Plot = vid.Plot;
-            newVideo.Director = vid.Director;
+            newVideo.Director = dir.dir_id;
             newVideo.Category = vid.Category;
             newVideo.Box_Cover = vid.Box_Cover;
 
@@ -254,6 +278,17 @@ namespace herman.Controllers
             catch (DbEntityValidationException ex)
             {
                 Console.Write("err is " + ex);
+
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
             }
 
             return RedirectToAction("Index");

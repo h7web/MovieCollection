@@ -18,7 +18,24 @@ namespace herman.Models
         public string Box_Cover { get; set; }
         public Nullable<int> Director { get; set; }
         public string dir_first_name { get; set; }
+        public string dir_mi { get; set; }
         public string dir_last_name { get; set; }
+
+        public string dir_fullname
+        {
+            get
+            {
+                if (dir_mi != null)
+                {
+                    return dir_first_name + ' ' + dir_mi + ' ' + dir_last_name;
+                }
+                else
+                {
+                    return dir_first_name + ' ' + dir_last_name;
+                }
+            }
+        }
+        public string newDirector { get; set; }
    
         public Nullable<int> length { get; set; }
         public string lengthtxt { get; set; }

@@ -82,7 +82,7 @@
           <Property Name="rating" Type="int" />
           <Property Name="Category" Type="int" />
           <Property Name="Plot" Type="nvarchar(max)" />
-          <Property Name="Box_Cover" Type="nvarchar" MaxLength="50" />
+          <Property Name="Box_Cover" Type="nvarchar" MaxLength="200" />
           <Property Name="featured" Type="bit" />
           <Property Name="modified" Type="datetime" />
           <Property Name="owner" Type="nvarchar" MaxLength="50" />
@@ -282,7 +282,7 @@
           <Property Name="rating" Type="Int32" />
           <Property Name="Category" Type="Int32" />
           <Property Name="Plot" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Box_Cover" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Box_Cover" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="featured" Type="Boolean" />
           <Property Name="modified" Type="DateTime" Precision="3" />
           <Property Name="owner" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
