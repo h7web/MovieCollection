@@ -94,4 +94,19 @@ p, td {
 	text-align: center;
 }
 
+.fn {
+    display:inline-block;
+}
 
+.mi {
+    display:inline-block;
+    width:20px;
+}
+
+.ln {
+    display:inline-block;
+}
+
+.sfx {
+    display:inline-block;
+}

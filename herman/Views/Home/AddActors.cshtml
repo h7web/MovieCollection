@@ -1,0 +1,64 @@
+﻿@model herman.Models.VideoViewModel
+
+@{
+    ViewBag.Title = "AddActors";
+    ViewData["actors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetActors();
+    ViewData["characters"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetChars();
+}
+
+<h2>Add Actors</h2>
+<div>
+@using (Html.BeginForm("AddActors","Home"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Hidden("id", Model.video_id)
+
+    <dl class="dl-horizontal">
+
+        <dd>
+            @Model.Video_Name
+        </dd>
+
+        <dd>
+            @Model.Release_Date
+        </dd>
+
+        <dd>
+            @Model.Box_Cover
+        </dd>
+
+    </dl>
+
+    <dl class="dl-horizontal">
+        <dt>Actor</dt>
+        <dd>@Html.DropDownList("actor_id", (IEnumerable<SelectListItem>)ViewData["actors"], new { @class = "form-control" })
+        <br />
+        -OR-
+        <br />
+        @Html.TextBox("actor_first_name", "", new { @class = "form-control fn", placeholder = "First Name" })
+        @Html.TextBox("actor_mi", "", new { @class = "form-control mi", placeholder = "MI" })
+        @Html.TextBox("actor_last_name", "", new { @class = "form-control ln", placeholder = "Last Name" })
+        @Html.TextBox("actor_suffix", "", new { @class = "form-control sfx", placeholder = "Suffix" })
+        @Html.TextBox("actor_photo", "", new { @class = "form-control", placeholder = "Photo" })
+        <br />
+        </dd>
+        <dt>Character</dt>
+        <dd>
+            @Html.DropDownList("char_id", (IEnumerable<SelectListItem>)ViewData["characters"], new { @class = "form-control" })
+        <br />
+        -OR-
+        <br />
+        @Html.TextBox("char_first_name", "", new { @class = "form-control fn", placeholder = "First Name" })
+        @Html.TextBox("char_mi", "", new { @class = "form-control mi", placeholder = "MI" })
+        @Html.TextBox("char_last_name", "", new { @class = "form-control ln", placeholder = "Last Name" })
+        @Html.TextBox("char_alias", "", new { @class = "form-control sfx", placeholder = "Alias" })
+    </dd>
+    </dl>
+    <button type="submit" class="btn btn-default btn-secondary">Add</button>
+}
+
+</div>
+<p>
+    @Html.ActionLink("Back to Video", "VideoDetails", new { id = Model.video_id }) |
+</p>
