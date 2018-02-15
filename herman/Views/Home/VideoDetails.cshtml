@@ -33,7 +33,7 @@
         </dd>
 
         <dd>
-            @Html.DisplayFor(model => model.dir_fullname)
+            <a href="@Url.Action("ViewDirector","Home", new { id = Model.dir_id })">@Html.DisplayFor(model => model.dir_fullname)</a>
         </dd>
 
         <dd>
@@ -64,13 +64,13 @@
 @item.actor.actor_fullname
 . . . . . 
 @item.character.char_fullname
-        <a href='@Url.Action("RemoveActor","Home", new { video_id = Model.video_id, actor_id = item.actor.actor_id, char_id = item.character.char_id })'>Remove</a>
+        <a href='@Url.Action("RemoveActor","Home", new { video_id = Model.video_id, actor_id = item.actor.actor_id, char_id = item.character.char_id })'>[Remove]</a>
 </dd>
 }
         </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.video_id }) |
+    @Html.ActionLink("Edit", "EditVideo", new { id = Model.video_id }) |
     @Html.ActionLink("Add Actors", "AddActors", new { id = Model.video_id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

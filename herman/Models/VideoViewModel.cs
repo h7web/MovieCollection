@@ -17,6 +17,7 @@ namespace herman.Models
         public string Plot { get; set; }
         public string Box_Cover { get; set; }
         public Nullable<int> Director { get; set; }
+        public Nullable<int> dir_id { get; set; }
         public string dir_first_name { get; set; }
         public string dir_mi { get; set; }
         public string dir_last_name { get; set; }

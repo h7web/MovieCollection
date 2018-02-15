@@ -36,7 +36,7 @@
                 @Html.ActionLink(item.Video_Name, "VideoDetails", new { id = item.video_id })
             </div>
             <p>
-                @Html.DisplayFor(modelItem => item.dir_fullname) 
+                <a href="@Url.Action("ViewDirector","Home", new { id = item.dir_id })">@Html.DisplayFor(modelItem => item.dir_fullname)</a>
                 -
                 @Html.DisplayFor(modelItem => item.Release_Date)
             </p>

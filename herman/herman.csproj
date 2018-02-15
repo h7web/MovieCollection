@@ -239,6 +239,8 @@
     <Content Include="Views\Home\SearchForVideo.cshtml" />
     <Content Include="Views\Home\GetVideoDetails.cshtml" />
     <Content Include="Views\Home\AddActors.cshtml" />
+    <Content Include="Views\Home\ViewDirector.cshtml" />
+    <Content Include="Views\Home\EditVideo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

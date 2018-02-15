@@ -1,0 +1,31 @@
+﻿@model herman.Models.director
+
+@{
+    var mymovielist = Model.mymovies;
+}
+
+<h2>Viewdir</h2>
+
+<div>
+    <dl>
+        <dd>
+            @Html.DisplayFor(model => model.dir_first_name)
+            @Html.DisplayFor(model => model.dir_mi)
+            @Html.DisplayFor(model => model.dir_last_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <dl>
+        @foreach (var item in mymovielist)
+        {
+            <dd>
+                <a href="@Url.Action("VideoDetails","Home", new { id=item.video_id })">
+                    @item.Release_Date
+                    --
+                    @item.Video_Name
+                </a>
+            </dd>
+        }
+    </dl>
+</div>

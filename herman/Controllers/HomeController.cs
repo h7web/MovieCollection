@@ -34,6 +34,7 @@ namespace herman.Controllers
                             Release_Date = v.Release_Date,
                             Plot = v.Plot,
                             Box_Cover = v.Box_Cover,
+                            dir_id = d.dir_id,
                             dir_first_name = d.dir_first_name,
                             dir_last_name = d.dir_last_name
                         };
@@ -55,7 +56,8 @@ namespace herman.Controllers
                             Plot = v.Plot,
                             Box_Cover = v.Box_Cover,
                             dir_first_name = d.dir_first_name,
-                            dir_last_name = d.dir_last_name
+                            dir_last_name = d.dir_last_name,
+                            dir_id = d.dir_id
                         };
 
             }
@@ -82,6 +84,7 @@ namespace herman.Controllers
                             Box_Cover = v.Box_Cover,
                             dir_first_name = d.dir_first_name,
                             dir_last_name = d.dir_last_name,
+                            dir_id = d.dir_id,
                             length = v.length,
                             rating = v.rating,
                             category_name = c.category_name
@@ -141,8 +144,20 @@ namespace herman.Controllers
 
             return View(getdir);
         }
+        public List<SelectListItem> GetRatings(int selected = 0)
+        {
+            List<SelectListItem> ratings = new List<SelectListItem>();
 
-        public List<SelectListItem> GetCategories(string selected = null)
+            ratings.Add(new SelectListItem { Value = "", Text = "* Select a Rating" });
+
+            ratings.Add(new SelectListItem { Value = "1", Text = "G", Selected = (selected == 1) ? true : false });
+            ratings.Add(new SelectListItem { Value = "2", Text = "PG", Selected = (selected == 2) ? true : false });
+            ratings.Add(new SelectListItem { Value = "3", Text = "PG-13", Selected = (selected == 3) ? true : false });
+            ratings.Add(new SelectListItem { Value = "4", Text = "R", Selected = (selected == 4) ? true : false });
+
+            return ratings;
+        }
+        public List<SelectListItem> GetCategories(int selected = 0)
         {
             List<SelectListItem> categories = new List<SelectListItem>();
 
@@ -152,7 +167,7 @@ namespace herman.Controllers
 
             foreach (var d in cats)
             {
-                categories.Add(new SelectListItem { Value = d.category_id.ToString(), Text = d.category_name, Selected = (selected == d.category_id.ToString()) ? true : false });
+                categories.Add(new SelectListItem { Value = d.category_id.ToString(), Text = d.category_name, Selected = (selected == d.category_id) ? true : false });
             }
 
             return categories;
@@ -308,6 +323,39 @@ namespace herman.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult EditVideo(int id)
+        {
+            var vid = (from v in db.Videos
+                    where v.video_id == id
+                    select v).SingleOrDefault();
+
+            return View(vid);
+        }
+
+        [HttpPost]
+        public ActionResult EditVideo(Video vid)
+        {
+            var udvid = (from v in db.Videos where v.video_id == vid.video_id select v).SingleOrDefault();
+
+            udvid.Video_Name = vid.Video_Name;
+            udvid.VHS = vid.VHS;
+            udvid.DVD = vid.DVD;
+            udvid.BLURAY = vid.BLURAY;
+            udvid.DIGITAL = vid.DIGITAL;
+            udvid.Director = vid.Director;
+            udvid.length = vid.length;
+            udvid.rating = vid.rating;
+            udvid.Category = vid.Category;
+            udvid.Plot = vid.Plot;
+            udvid.Release_Date = vid.Release_Date;
+            udvid.Box_Cover = vid.Box_Cover;
+            udvid.featured = vid.featured;
+
+            db.SaveChanges();
+
+            return RedirectToAction("VideoDetails", new { id = vid.video_id });
         }
 
         public List<SelectListItem> GetActors(string selected = null)
