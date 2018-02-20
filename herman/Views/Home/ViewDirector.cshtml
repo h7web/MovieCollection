@@ -4,14 +4,16 @@
     var mymovielist = Model.mymovies;
 }
 
-<h2>Viewdir</h2>
+<h2>Director</h2>
 
 <div>
     <dl>
         <dd>
-            @Html.DisplayFor(model => model.dir_first_name)
-            @Html.DisplayFor(model => model.dir_mi)
-            @Html.DisplayFor(model => model.dir_last_name)
+            <strong>
+                @Html.DisplayFor(model => model.dir_first_name)
+                @Html.DisplayFor(model => model.dir_mi)
+                @Html.DisplayFor(model => model.dir_last_name)
+            </strong>
         </dd>
     </dl>
 </div>

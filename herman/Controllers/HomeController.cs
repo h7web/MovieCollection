@@ -282,6 +282,10 @@ namespace herman.Controllers
                 db.SaveChanges();
 
             }
+            else
+            {
+                dir.dir_id = (int)vid.Director;
+            }
 
 
             var newVideo = new Video();
@@ -298,7 +302,7 @@ namespace herman.Controllers
             newVideo.Director = dir.dir_id;
             newVideo.Category = vid.Category;
             newVideo.Box_Cover = vid.Box_Cover;
-
+            newVideo.featured = false;
 
             try
             {

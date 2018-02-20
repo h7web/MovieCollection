@@ -7,12 +7,12 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add Video", "AddVideo")
 </p>
 <p>
     @using (Html.BeginForm("Index", "Home"))
     {
-        @Html.TextBox("search") <input type="submit" name="submit" value="Search" />
+        @Html.TextBox("search", "", new { @class = "form-control" }) <input type="submit" name="submit" value="Search" class="btn btn-primary" />
     }
 </p>
 <table class="table" border="0">
