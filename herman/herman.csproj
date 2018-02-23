@@ -149,6 +149,7 @@
     <Compile Include="Models\character.cs">
       <DependentUpon>HermanModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\director.cs">
       <DependentUpon>HermanModel.tt</DependentUpon>
     </Compile>
@@ -157,6 +158,9 @@
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\IMDBSearchResult.cs" />
     <Compile Include="Models\Partialactor.cs" />
+    <Compile Include="Models\top5s.cs">
+      <DependentUpon>HermanModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\VideoViewModel.cs" />
     <Compile Include="Models\HermanModel.Context.cs">
       <AutoGen>True</AutoGen>

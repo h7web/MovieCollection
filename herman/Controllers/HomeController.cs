@@ -16,11 +16,24 @@ namespace herman.Controllers
         private Models.Entities db = new Models.Entities();
         public ActionResult Index(string search)
         {
-            IQueryable<VideoViewModel> vlist;
+            Dashboard dash = new Dashboard();
+
+            var movies = (from v in db.Videos select v);
+
+            dash.CountTotal = movies.Count();
+            dash.CountVHS = movies.Where(v => v.VHS == true).Count();
+            dash.CountDVD = movies.Where(v => v.DVD == true).Count();
+            dash.CountBluray = movies.Where(v => v.BLURAY == true).Count();
+            dash.CountDIGITAL = movies.Where(v => v.DIGITAL == true).Count();
+
+
+            var top5 = (from a in db.top5s select a).ToList();
+
+            dash.Top5 = top5;
 
             if (search != null)
             {
-                vlist = from v in db.Videos
+                dash.Vmm = from v in db.Videos
                         join d in db.directors on v.Director equals d.dir_id
                         where v.Video_Name.Contains(search)
                         select new VideoViewModel
@@ -41,7 +54,7 @@ namespace herman.Controllers
             }
             else
             {
-                vlist = from v in db.Videos
+                dash.Vmm = from v in db.Videos
                         where v.featured == true
                         join d in db.directors on v.Director equals d.dir_id
                         select new VideoViewModel
@@ -62,7 +75,7 @@ namespace herman.Controllers
 
             }
 
-            return View(vlist);
+            return View(dash);
         }
 
         public ActionResult VideoDetails(int id) 
@@ -127,6 +140,7 @@ namespace herman.Controllers
 
             return View(getactor);
         }
+
         public ActionResult ViewDirector(int id)
         {
             var getdir = (from d in db.directors
@@ -144,6 +158,7 @@ namespace herman.Controllers
 
             return View(getdir);
         }
+
         public List<SelectListItem> GetRatings(int selected = 0)
         {
             List<SelectListItem> ratings = new List<SelectListItem>();
@@ -157,6 +172,7 @@ namespace herman.Controllers
 
             return ratings;
         }
+
         public List<SelectListItem> GetCategories(int selected = 0)
         {
             List<SelectListItem> categories = new List<SelectListItem>();
@@ -172,6 +188,7 @@ namespace herman.Controllers
 
             return categories;
         }
+
         public List<SelectListItem> GetDirectors(string selected = null)
         {
             List<SelectListItem> directors = new List<SelectListItem>();

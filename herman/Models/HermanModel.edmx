@@ -88,6 +88,17 @@
           <Property Name="owner" Type="nvarchar" MaxLength="50" />
           <Property Name="keywords" Type="nvarchar(max)" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'herman.dbo.top5s' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="top5s">
+          <Key>
+            <PropertyRef Name="actor_id" />
+          </Key>
+          <Property Name="actor_id" Type="int" Nullable="false" />
+          <Property Name="actor_first_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="actor_last_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="cnt" Type="int" />
+        </EntityType>
         <Association Name="FK_actor2movie_actors">
           <End Role="actors" Type="Self.actors" Multiplicity="1" />
           <End Role="actor2movie" Type="Self.actor2movie" Multiplicity="*" />
@@ -168,6 +179,14 @@
           <EntitySet Name="directors" EntityType="Self.directors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="images" EntityType="Self.images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Videos" EntityType="Self.Videos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="top5s" EntityType="Self.top5s" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [top5s].[actor_id] AS [actor_id], 
+    [top5s].[actor_first_name] AS [actor_first_name], 
+    [top5s].[actor_last_name] AS [actor_last_name], 
+    [top5s].[cnt] AS [cnt]
+    FROM [dbo].[top5s] AS [top5s]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_actor2movie_actors" Association="Self.FK_actor2movie_actors">
             <End Role="actors" EntitySet="actors" />
             <End Role="actor2movie" EntitySet="actor2movie" />
@@ -396,7 +415,17 @@
             <End Role="Videos" EntitySet="Videos" />
             <End Role="images" EntitySet="images" />
           </AssociationSet>
+          <EntitySet Name="top5s" EntityType="hermanModel.top5s" />
         </EntityContainer>
+        <EntityType Name="top5s">
+          <Key>
+            <PropertyRef Name="actor_id" />
+          </Key>
+          <Property Name="actor_id" Type="Int32" Nullable="false" />
+          <Property Name="actor_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="actor_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cnt" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -488,6 +517,16 @@
                 <ScalarProperty Name="modified" ColumnName="modified" />
                 <ScalarProperty Name="owner" ColumnName="owner" />
                 <ScalarProperty Name="keywords" ColumnName="keywords" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="top5s">
+            <EntityTypeMapping TypeName="hermanModel.top5s">
+              <MappingFragment StoreEntitySet="top5s">
+                <ScalarProperty Name="cnt" ColumnName="cnt" />
+                <ScalarProperty Name="actor_last_name" ColumnName="actor_last_name" />
+                <ScalarProperty Name="actor_first_name" ColumnName="actor_first_name" />
+                <ScalarProperty Name="actor_id" ColumnName="actor_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<herman.Models.VideoViewModel>
+﻿@model herman.Models.Dashboard
 
 @{
     ViewBag.Title = "Index";
@@ -15,19 +15,42 @@
         @Html.TextBox("search", "", new { @class = "form-control" }) <input type="submit" name="submit" value="Search" class="btn btn-primary" />
     }
 </p>
-<table class="table" border="0">
-@foreach (var item in Model)
+<table class="table">
+    <tr>
+        <td>VHS: @Model.CountVHS</td>
+        <td>DVD: @Model.CountDVD</td>
+        <td>Bluray: @Model.CountBluray</td>
+        <td>Digital: @Model.CountDIGITAL</td>
+        <td>Total Titles: @Model.CountTotal</td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @foreach (var item in Model.Top5)
+            {
+               @Html.ActionLink(item.actor_first_name + " " + item.actor_last_name, "ViewActor", new { id = item.actor_id})
+               @: . . . . . . . 
+               @item.cnt
+               @:<br/>
+            }
+
+        </td>
+    </tr>
+</table>
+<table class="table" border="1">
+@foreach (var item in Model.Vmm)
 {
     <tr>
         <td rowspan="3">
-            @if (item.Box_Cover.Contains("https"))
-            {
-                <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
-            }
-            else
-            {
-            <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)"  class="cover" />
-            }
+            <div>
+                @if (item.Box_Cover.Contains("https"))
+                {
+                    <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+                }
+                else
+                {
+                    <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+                }
+            </div>
         </td>
     </tr>
     <tr>
@@ -36,7 +59,7 @@
                 @Html.ActionLink(item.Video_Name, "VideoDetails", new { id = item.video_id })
             </div>
             <p>
-                <a href="@Url.Action("ViewDirector","Home", new { id = item.dir_id })">@Html.DisplayFor(modelItem => item.dir_fullname)</a>
+                @Html.ActionLink(item.dir_fullname, "ViewDirector","Home", new { id = item.dir_id })
                 -
                 @Html.DisplayFor(modelItem => item.Release_Date)
             </p>
@@ -48,6 +71,7 @@
             @Html.Raw(FormatHelper.GetMediaFormat(item.DIGITAL, "DIGITAL"))
         </td>
     </tr>
+
     <tr>
         <td colspan="2">
             @Html.DisplayFor(modelItem => item.Plot)

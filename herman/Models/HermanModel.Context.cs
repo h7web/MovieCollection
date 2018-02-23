@@ -32,5 +32,6 @@ namespace herman.Models
         public virtual DbSet<director> directors { get; set; }
         public virtual DbSet<image> images { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
+        public virtual DbSet<top5s> top5s { get; set; }
     }
 }
