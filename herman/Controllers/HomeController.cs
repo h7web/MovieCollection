@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -77,6 +75,27 @@ namespace herman.Controllers
 
             return View(dash);
         }
+
+        [Authorize]
+        public ActionResult Logon()
+        {
+            return RedirectToAction("Index");
+        }
+
+        public static bool CanEdit()
+        {
+            var su = System.Configuration.ConfigurationManager.AppSettings.GetValues("AdSuperUsers").ToString();
+            var cu = System.Web.HttpContext.Current.User.Identity.ToString();
+            if (cu == su)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         public ActionResult VideoDetails(int id) 
         {

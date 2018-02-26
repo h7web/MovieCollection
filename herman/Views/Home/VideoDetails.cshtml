@@ -6,6 +6,8 @@
     var vcl = Model.VideoCastList;
 }
 
+@using herman.Controllers;
+
 <h2>Video Details</h2>
 
 <div>
@@ -64,17 +66,21 @@
 @item.actor.actor_fullname
 . . . . . 
 @item.character.char_fullname
-        <!--
-        <a href='@Url.Action("RemoveActor","Home", new { video_id = Model.video_id, actor_id = item.actor.actor_id, char_id = item.character.char_id })'>[Remove]</a>
-            -->
+@if (HomeController.CanEdit())
+{
+        @Html.ActionLink("[Remove]","RemoveActor", "Home", new { video_id = Model.video_id, actor_id = item.actor.actor_id, char_id = item.character.char_id })
+}
 </dd>
 }
         </dl>
 </div>
 <p>
-    <!--
-    @Html.ActionLink("Edit", "EditVideo", new { id = Model.video_id }) |
-        -->
-    @Html.ActionLink("Add Actors", "AddActors", new { id = Model.video_id }) |
+    @if (HomeController.CanEdit())
+    { 
+    @Html.ActionLink("Edit", "EditVideo", new { id = Model.video_id }) 
+    @:|
+    @Html.ActionLink("Add Actors", "AddActors", new { id = Model.video_id }) 
+    @:|
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>
