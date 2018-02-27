@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Data.Entity.Validation;
+using System.Text.RegularExpressions;
 
 namespace herman.Controllers
 {
@@ -84,9 +85,19 @@ namespace herman.Controllers
 
         public static bool CanEdit()
         {
-            var su = System.Configuration.ConfigurationManager.AppSettings.GetValues("AdSuperUsers").ToString();
-            var cu = System.Web.HttpContext.Current.User.Identity.ToString();
-            if (cu == su)
+            var su = System.Configuration.ConfigurationManager.AppSettings.GetValues("AdSuperUsers").ToList();
+            var cu = System.Web.HttpContext.Current.User.Identity.Name.ToString();
+            var val = false;
+
+            foreach (var user in su)
+            {
+                if (user.Contains(cu) && cu != "")
+                {
+                    val = true;
+                }
+            }
+
+            if (val)
             {
                 return true;
             }
@@ -344,7 +355,10 @@ namespace herman.Controllers
             {
                 db.Videos.Add(newVideo);
 
-                db.SaveChanges();
+                if (CanEdit())
+                {
+                    db.SaveChanges();
+                }
             }
             catch (DbEntityValidationException ex)
             {
@@ -393,8 +407,10 @@ namespace herman.Controllers
             udvid.Box_Cover = vid.Box_Cover;
             udvid.featured = vid.featured;
 
-            db.SaveChanges();
-
+            if (CanEdit())
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("VideoDetails", new { id = vid.video_id });
         }
 
@@ -495,7 +511,10 @@ namespace herman.Controllers
                 db.characters.Remove(chr);
             }
 
-            db.SaveChanges();
+            if (CanEdit())
+            {
+                db.SaveChanges();
+            }
 
             return RedirectToAction("VideoDetails", new { @id = a2m.video_id });
         }

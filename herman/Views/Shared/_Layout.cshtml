@@ -13,7 +13,17 @@
             <div class="navbar-header">
                 @Html.ActionLink("Herman's Entertainment Drive-In", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar navbar-right">@Html.ActionLink("Log On","Logon")</div>
+            <div class="navbar navbar-right">
+            @if (Context.User.Identity.Name.ToString() != "")
+            {
+                @Html.ActionLink("Log Off", "Logoff")
+            }
+            else
+            {
+                @Html.ActionLink("Log On", "Logon")
+            }
+                @Context.User.Identity.Name.ToString()
+            </div>
            
         </div>
     </div>

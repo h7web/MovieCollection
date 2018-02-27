@@ -120,12 +120,15 @@ p, td {
     display:inline-block;
 }
 
-.table tbody tr td
+table, .table, .table tbody, .table tbody tr, .table tbody tr td
 {
-    border:0;
+    border-collapse: collapse;
+    border-spacing:0;
+    border:1;
 }
 
-.table tbody tr {
-    border-top: 1px;
-    height:1000%;
+.table tbody tr, .table tbody tr td {
+    vertical-align:top;
+    padding:0px;
+    margin:0px;
 }

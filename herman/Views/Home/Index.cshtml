@@ -4,10 +4,15 @@
     ViewBag.Title = "Index";
 }
 
+@using herman.Controllers;
+
 <h2>Index</h2>
 
 <p>
+@if (HomeController.CanEdit())
+{
     @Html.ActionLink("Add Video", "AddVideo")
+}
 </p>
 <p>
     @using (Html.BeginForm("Index", "Home"))
@@ -36,12 +41,11 @@
         </td>
     </tr>
 </table>
-<table class="table" border="1">
+<table class="table">
 @foreach (var item in Model.Vmm)
 {
     <tr>
         <td rowspan="3">
-            <div>
                 @if (item.Box_Cover.Contains("https"))
                 {
                     <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
@@ -50,7 +54,6 @@
                 {
                     <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
                 }
-            </div>
         </td>
     </tr>
     <tr>
