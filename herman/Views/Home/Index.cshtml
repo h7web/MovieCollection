@@ -21,25 +21,23 @@
     }
 </p>
 <table class="table">
-    <tr>
-        <td>VHS: @Model.CountVHS</td>
-        <td>DVD: @Model.CountDVD</td>
-        <td>Bluray: @Model.CountBluray</td>
-        <td>Digital: @Model.CountDIGITAL</td>
-        <td>Total Titles: @Model.CountTotal</td>
-    </tr>
-    <tr>
-        <td colspan="5">
+    <tr><td>VHS:</td><td>@Model.CountVHS</td>
+        <td rowspan="5">
             @foreach (var item in Model.Top5)
             {
-               @Html.ActionLink(item.actor_first_name + " " + item.actor_last_name, "ViewActor", new { id = item.actor_id})
-               @: . . . . . . . 
-               @item.cnt
-               @:<br/>
+                @Html.ActionLink(item.actor_first_name + " " + item.actor_last_name, "ViewActor", new { id = item.actor_id })
+                @: . . . . . . .
+                @item.cnt
+                @:<br />
             }
 
         </td>
+
     </tr>
+    <tr><td>DVD:</td><td>@Model.CountDVD</td></tr>
+    <tr><td>Bluray:</td><td>@Model.CountBluray</td></tr>
+    <tr><td>Digital:</td><td>@Model.CountDIGITAL</td></tr>
+    <tr><td>Total Titles:</td><td>@Model.CountTotal</td></tr>
 </table>
 <table class="table">
 @foreach (var item in Model.Vmm)
