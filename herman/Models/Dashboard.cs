@@ -9,6 +9,8 @@ namespace herman.Models
     {
         public IEnumerable<VideoViewModel> Vmm { get; set; }
 
+        public IEnumerable<VideoViewModel> Recent { get; set; }
+
         public int CountVHS { get; set; }
         public int CountDVD { get; set; }
         public int CountBluray { get; set; }
@@ -16,5 +18,7 @@ namespace herman.Models
         public int CountTotal { get; set; }
 
         public List<top5s> Top5 { get; set; }
+
+        public string search { get; set; }
     }
 }

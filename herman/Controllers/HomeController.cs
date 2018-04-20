@@ -30,6 +30,8 @@ namespace herman.Controllers
 
             dash.Top5 = top5;
 
+            var searchval = "false";
+
             if (search != null)
             {
                 dash.Vmm = from v in db.Videos
@@ -50,6 +52,8 @@ namespace herman.Controllers
                             dir_first_name = d.dir_first_name,
                             dir_last_name = d.dir_last_name
                         };
+
+                searchval = "true";
             }
             else
             {
@@ -72,7 +76,27 @@ namespace herman.Controllers
                             dir_id = d.dir_id
                         };
 
+                dash.Recent = (from v in db.Videos
+                           join d in db.directors on v.Director equals d.dir_id
+                           orderby v.video_id descending
+                           select new VideoViewModel
+                           {
+                               video_id = v.video_id,
+                               Video_Name = v.Video_Name,
+                               VHS = v.VHS,
+                               DVD = v.DVD,
+                               BLURAY = v.BLURAY,
+                               DIGITAL = v.DIGITAL,
+                               Release_Date = v.Release_Date,
+                               Plot = v.Plot,
+                               Box_Cover = v.Box_Cover,
+                               dir_first_name = d.dir_first_name,
+                               dir_last_name = d.dir_last_name,
+                               dir_id = d.dir_id
+                           }).Take(5);
+
             }
+            dash.search = searchval;
 
             return View(dash);
         }

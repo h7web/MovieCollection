@@ -39,6 +39,7 @@
     <tr><td>Digital:</td><td>@Model.CountDIGITAL</td></tr>
     <tr><td>Total Titles:</td><td>@Model.CountTotal</td></tr>
 </table>
+<p class="h4">Featured Videos</p>
 <table class="table">
 @foreach (var item in Model.Vmm)
 {
@@ -81,3 +82,50 @@
 }
 
 </table>
+@if (Model.search == "false")
+{
+<p class="h4">Recent Videos</p>
+<table class="table">
+    @foreach (var item in Model.Recent)
+    {
+        <tr>
+            <td rowspan="3">
+                @if (item.Box_Cover.Contains("https"))
+                {
+                    <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+                }
+                else
+                {
+                    <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="VideoTitle">
+                    @Html.ActionLink(item.Video_Name, "VideoDetails", new { id = item.video_id })
+                </div>
+                <p>
+                    @Html.ActionLink(item.dir_fullname, "ViewDirector", "Home", new { id = item.dir_id })
+                    -
+                    @Html.DisplayFor(modelItem => item.Release_Date)
+                </p>
+            </td>
+            <td class="formatcolumn">
+                @Html.Raw(FormatHelper.GetMediaFormat(item.VHS, "VHS"))
+                @Html.Raw(FormatHelper.GetMediaFormat(item.DVD, "DVD"))
+                @Html.Raw(FormatHelper.GetMediaFormat(item.BLURAY, "BLURAY"))
+                @Html.Raw(FormatHelper.GetMediaFormat(item.DIGITAL, "DIGITAL"))
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                @Html.DisplayFor(modelItem => item.Plot)
+            </td>
+        </tr>
+    }
+
+</table>
+
+}
