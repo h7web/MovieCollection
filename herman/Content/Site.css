@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 80px;
     padding-bottom: 20px;
 	background-color:#0066B3;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -34,7 +34,6 @@ textarea {
 #header {
 
 	background-color:#071D4D;
-	height: 17.3em;
 	margin-right: .5em;
 	margin-bottom: 1em;
 	color:#FFFFFF;
@@ -53,6 +52,7 @@ p, td {
 	width: 7.75em;
 	height: 10em;
 	margin-right:.5em;
+    margin-bottom:15px;
 }
 
 .actor {
@@ -76,7 +76,7 @@ p, td {
 }
 
 .formatcolumn {
-    width:23em;
+    vertical-align:top;
     text-align:right;
 }
 
@@ -124,11 +124,28 @@ table, .table, .table tbody, .table tbody tr, .table tbody tr td
 {
     border-collapse: collapse;
     border-spacing:0;
-    border:1;
+
 }
 
-.table tbody tr, .table tbody tr td {
+.table {
     vertical-align:top;
     padding:0px;
     margin:0px;
+    margin-bottom:40px;
+}
+
+.plot {
+    padding-bottom:15px;
+}
+
+.row {
+    margin-bottom:15px;
+}
+
+.row, .h4 {
+    border-bottom:solid 1px #fff;
+}
+
+div.navbar {
+    min-height:20px !important;
 }

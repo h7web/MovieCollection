@@ -17,12 +17,12 @@
             @if (Context.User.Identity.Name.ToString() != "")
             {
                 @Html.ActionLink("Log Off", "Logoff")
+                @Context.User.Identity.Name.ToString()
             }
             else
             {
                 @Html.ActionLink("Log On", "Logon")
             }
-                @Context.User.Identity.Name.ToString()
             </div>
            
         </div>

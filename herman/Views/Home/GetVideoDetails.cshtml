@@ -1,5 +1,7 @@
 ﻿@model herman.Models.IMDBSearchResult
 @{
+    ViewBag.Title = "Get Video Details";
+
     ViewData["Categories"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetCategories();
     ViewData["Directors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetDirectors(Model.dir_id.ToString());
     var dirs = ViewData["Directors"];

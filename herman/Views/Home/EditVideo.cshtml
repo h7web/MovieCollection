@@ -1,7 +1,7 @@
 ﻿@model herman.Models.Video
 
 @{
-    ViewBag.Title = "EditVideo";
+    ViewBag.Title = "Edit Video";
 
     ViewData["Categories"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetCategories((int)Model.Category);
     ViewData["Directors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetDirectors(Model.Director.ToString());
