@@ -43,14 +43,16 @@
 {
     <div class="row">
         <div class="col-lg-1 cover">
-            @if (item.Box_Cover.Contains("https"))
+            <a href="@Url.Action("VideoDetails", new { id = item.video_id })">
+                @if (item.Box_Cover.Contains("https"))
                 {
-                <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
-            }
-            else
-            {
-                <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
-            }
+                    <img src="@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+                }
+                else
+                {
+                    <img src="http://h7.hopto.org/herman/images/@Html.DisplayFor(modelItem => item.Box_Cover)" class="cover" />
+                }
+            </a>
         </div>
         <div class="col-lg-10">
             <div class="VideoTitle">
