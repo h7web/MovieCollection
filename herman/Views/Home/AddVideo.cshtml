@@ -2,19 +2,27 @@
 
 @{
     ViewBag.Title = "Add Video";
+
+    var srch = ViewData["uvs"];
+    string vid = (string)ViewData["vid"];
+
+    if (vid == null)
+    {
+        vid = "0";
+    }
 }
 
 <h2>Add Video</h2>
 
 
-@using (Html.BeginForm("SearchForVideo", "Home")) 
+@using (Html.BeginForm("SearchForVideo", "Home"))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        @Html.Hidden("video_id", vid)
         <div class="form-group">
             Step 1: Search Title
             <div class="col-md-10">
@@ -50,7 +58,7 @@
 
         function GetIMDBVideoDetails(id) {
 
-            $.get('@Url.Action("GetVideoDetails")' + '?id=' + id, function (data) {
+            $.get('@Url.Action("GetVideoDetails")' + '?id=' + id + '&video_id=' + @vid, function (data) {
                 $('#IMDBVideoDetail').empty();
                 $('#IMDBVideoDetail').append(data);
                 $('#SearchResults').empty();

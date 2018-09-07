@@ -5,7 +5,11 @@
 
     ViewData["Categories"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetCategories((int)Model.Category);
     ViewData["Directors"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetDirectors(Model.Director.ToString());
-    ViewData["Ratings"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetRatings((int)Model.rating);
+
+    if (Model.rating != null)
+    {
+        ViewData["Ratings"] = ((herman.Controllers.HomeController)this.ViewContext.Controller).GetRatings((int)Model.rating);
+    }
 }
 
 <h2>Edit Video</h2>

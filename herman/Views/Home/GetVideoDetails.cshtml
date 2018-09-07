@@ -8,6 +8,7 @@
 }
 @using (Html.BeginForm("AddVideo", "Home"))
 {
+    @Html.Hidden("video_id", Model.id)
     @Html.Hidden("Video_Name", Model.Title)
     @Html.Hidden("Release_Date", Model.Year)
     @Html.Hidden("lengthtxt", Model.Runtime)
@@ -59,7 +60,7 @@
                <br />(
                @Model.Genre
                }</dd>
-               <dt>VHS</dt><dd> @Html.CheckBox("VHS", new { @class="form-control" })</dd>
+               <dt>VHS</dt><dd> @Html.CheckBox("VHS", new { @class = "form-control" })</dd>
                <dt>DVD</dt><dd> @Html.CheckBox("DVD", new { @class = "form-control" })</dd>
                <dt>BLURAY</dt><dd> @Html.CheckBox("BLURAY", new { @class = "form-control" })</dd>
                <dt>DIGITAL</dt><dd> @Html.CheckBox("DIGITAL", new { @class = "form-control" })</dd>

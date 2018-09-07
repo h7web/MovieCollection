@@ -30,5 +30,7 @@ namespace herman.Models
 
         public int dir_id { get; set; }
 
+        public string id { get; set; }
+
     }
 }

@@ -31,7 +31,7 @@
                     <img src="@Html.DisplayFor(modelItem => item.Poster)" class="cover" />
                 </td>
                 <td>
-                    <a href="#" onclick="GetIMDBVideoDetails('@item.imdbID');">@item.Title</a>
+                    <a href="#" onclick="GetIMDBVideoDetails('@item.imdbID','@item.id');">@item.Title</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Year)

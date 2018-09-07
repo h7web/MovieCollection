@@ -1,0 +1,28 @@
+﻿@model IEnumerable<herman.Models.tmdbSearchResult>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tmdbID)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+           <img src="https://image.tmdb.org/t/p/w90_and_h90_face/@item.profile_path" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tmdbID)
+        </td>
+    </tr>
+}
+
+</table>

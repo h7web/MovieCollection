@@ -131,7 +131,6 @@ namespace herman.Controllers
             }
         }
 
-
         public ActionResult VideoDetails(int id) 
         {
              var getvideo = (from v in db.Videos
@@ -268,9 +267,25 @@ namespace herman.Controllers
             return imdbsearch.Search;
         }
 
+        public List<tmdbSearchResult> ActorSearchResults(string search)
+        {
+            var jsonString = new WebClient().DownloadString("https://api.themoviedb.org/3/search/person?api_key=20b7f0072c71ea8a098653d0a11b5b46&language=en-US&page=1&include_adult=false&query=" + Url.Encode(search));
+
+            var tmdbsearch = JsonConvert.DeserializeObject<results>(jsonString);
+
+             return tmdbsearch.ActorSearch;
+        }
+
         public ActionResult SearchForVideo(string search)
         {
             var ret = SearchResults(search);
+
+            return PartialView(ret);
+        }
+
+        public ActionResult SearchForActor(string search)
+        {
+            var ret = ActorSearchResults(search);
 
             return PartialView(ret);
         }
@@ -292,32 +307,44 @@ namespace herman.Controllers
             return dirid;
         }
 
-        public IMDBSearchResult GetIMDBVideoDetails(string id)
+        public IMDBSearchResult GetIMDBVideoDetails(string id, string video_id)
         {
             var jsonString = new WebClient().DownloadString("http://www.omdbapi.com/?apikey=b2c5d76a&r=json&i=" + id);
 
             var imdbsearch = JsonConvert.DeserializeObject<IMDBSearchResult>(jsonString);
 
             imdbsearch.dir_id = FindDir(imdbsearch.Director);
+            imdbsearch.id = video_id;
 
             return imdbsearch;
         }
 
-        public ActionResult GetVideoDetails(string id)
+        public ActionResult GetVideoDetails(string id, string video_id)
         {
-            var ret = GetIMDBVideoDetails(id);
+            var ret = GetIMDBVideoDetails(id,video_id);
+            ret.id = video_id;
 
             return PartialView(ret);
         }
 
-        public ActionResult AddVideo()
+        public ActionResult AddVideo(string id, string search)
         {
+            ViewData["uvs"] = search;
+            ViewData["vid"] = id;
+            return View();
+        }
+
+        public ActionResult AddActor(string vid, string id, string search)
+        {
+            ViewData["uas"] = search;
+            ViewData["aid"] = id;
+            ViewData["vid"] = id;
             return View();
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult AddVideo(VideoViewModel vid)
+        public ActionResult AddVideo(VideoViewModel vid, int video_id)
         {
             var dir = new director();
 
@@ -344,40 +371,59 @@ namespace herman.Controllers
             len = len - 4;
             int length = Int32.Parse(vid.lengthtxt.Substring(0, len));
 
-            if (vid.Director == null)
+            var exvid = (from v in db.Videos where v.video_id == video_id select v).FirstOrDefault();
+
+            if (exvid == null)
             {
-                dir.dir_first_name = vid.newDirector.Substring(0, vid.newDirector.IndexOf(" "));
-                dir.dir_last_name = (vid.newDirector.Substring((vid.newDirector.IndexOf(" ")), (vid.newDirector.Length - vid.newDirector.IndexOf(" ")))).Trim();
+                if (vid.Director == null)
+                {
+                    dir.dir_first_name = vid.newDirector.Substring(0, vid.newDirector.IndexOf(" "));
+                    dir.dir_last_name = (vid.newDirector.Substring((vid.newDirector.IndexOf(" ")), (vid.newDirector.Length - vid.newDirector.IndexOf(" ")))).Trim();
 
-                db.directors.Add(dir);
-                db.SaveChanges();
+                    db.directors.Add(dir);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    dir.dir_id = (int)vid.Director;
+                }
+            }
 
+            if (exvid != null)
+            {
+                exvid.VHS = vid.VHS;
+                exvid.DVD = vid.DVD;
+                exvid.BLURAY = vid.BLURAY;
+                exvid.DIGITAL = vid.DIGITAL;
+                exvid.Release_Date = vid.Release_Date;
+                exvid.rating = rating;
+                exvid.length = length;
+                exvid.Plot = vid.Plot;
+                exvid.Category = vid.Category;
+                exvid.Box_Cover = vid.Box_Cover;
             }
             else
             {
-                dir.dir_id = (int)vid.Director;
+                var newVideo = new Video();
+
+                newVideo.Video_Name = vid.Video_Name;
+                newVideo.VHS = vid.VHS;
+                newVideo.DVD = vid.DVD;
+                newVideo.BLURAY = vid.BLURAY;
+                newVideo.DIGITAL = vid.DIGITAL;
+                newVideo.Release_Date = vid.Release_Date;
+                newVideo.rating = rating;
+                newVideo.length = length;
+                newVideo.Plot = vid.Plot;
+                newVideo.Director = dir.dir_id;
+                newVideo.Category = vid.Category;
+                newVideo.Box_Cover = vid.Box_Cover;
+                newVideo.featured = false;
+                db.Videos.Add(newVideo);
             }
 
-
-            var newVideo = new Video();
-
-            newVideo.Video_Name = vid.Video_Name;
-            newVideo.VHS = vid.VHS;
-            newVideo.DVD = vid.DVD;
-            newVideo.BLURAY = vid.BLURAY;
-            newVideo.DIGITAL = vid.DIGITAL;
-            newVideo.Release_Date = vid.Release_Date;
-            newVideo.rating = rating;
-            newVideo.length = length;
-            newVideo.Plot = vid.Plot;
-            newVideo.Director = dir.dir_id;
-            newVideo.Category = vid.Category;
-            newVideo.Box_Cover = vid.Box_Cover;
-            newVideo.featured = false;
-
-            try
-            {
-                db.Videos.Add(newVideo);
+                try
+                {
 
                 if (CanEdit())
                 {

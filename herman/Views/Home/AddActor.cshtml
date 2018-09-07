@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "AddActor";
+
+    var srch = ViewData["uas"];
+    string aid = (string)ViewData["aid"];
+
+    if (aid == null)
+    {
+        aid = "0";
+    }
+}
+
+<h2>Add Actor</h2>
+
+@using (Html.BeginForm("SearchForActor", "Home"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("actor_id", aid)
+        <div class="form-group">
+            Step 1: Search 
+            <div class="col-md-10">
+                @Html.TextBox("Search", "", new { @class = "form-control" }) <input type="submit" name="submit" value="Search" class="btn btn-default" onclick="Search4Actor(); return false" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+@ViewData["vid"]
+<br />
+
+<div id="SearchResults"></div>
+
+<div id="TMDBVideoDetail"></div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function Search4Actor() {
+
+            var search = $('input[type="text"][name$="Search"]').val();
+
+            $.get('@Url.Action("SearchForActor")' + '?search=' + search, function (data) {
+                $('#SearchResults').empty();
+                $('#SearchResults').append(data);
+            }).fail(function (jq, stat, err) {
+                alert('Error: ' + err);
+            });
+        }
+
+        function GetTMDBVideoDetails(id) {
+
+            $.get('@Url.Action("GetVideoDetails")' + '?id=' + id + '&actor_id=' + @aid, function (data) {
+                $('#TMDBVideoDetail').empty();
+                $('#TMDBVideoDetail').append(data);
+                $('#SearchResults').empty();
+            }).fail(function (jq, stat, err) {
+                alert('Error: ' + err);
+            });
+        }
+
+    </script>
+}
